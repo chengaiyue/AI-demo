@@ -8,7 +8,7 @@ from load_dotenv import load_dotenv
 
 from langchain.chat_models import init_chat_model
 
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, PromptTemplate
 from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
 
 load_dotenv()
@@ -20,24 +20,20 @@ chat = init_chat_model(
     base_url="https://token-plan-cn.xiaomimimo.com/v1"
 )
 
-_template = ChatPromptTemplate.from_messages([
-    ("system", "你是一个边塞诗人，可以作诗"),
-    ("human", "请在做一首诗"),
+_template = ChatPromptTemplate.from_template([
+    ("human", "我姓: {lastname}, 刚生了{gender}, 起个名字并封装成JSON格式返回给我"),
+    ("human", "要求key为name, value是起的名字")
 ])
 
-_template.messages.insert(1, MessagesPlaceholder(variable_name="history"))
-
-history_data = [
-    ("human", "你来写一首唐诗"),
-    ("ai", "白发三千丈，高挂云间。"),
-    ("human", "好诗，在来一首诗"),
-    ("ai", "床前明月光，疑是地上霜。")
-]
+_template2 = ChatPromptTemplate.from_template([
+    ("human", "姓名{name}, 帮我解析含义"),
+])
 
 _parser = StrOutputParser()
+_json_parser = JsonOutputParser()
 
-_chain = _template | chat | _parser | chat
+_chain = _template | chat | _json_parser | _template2 | chat | _parser
 
-res = _chain.invoke({ "history": history_data }) 
+res = _chain.invoke({"lastname": "张", "gender": "男孩"})
 
-print(res.content)
+print(res)
