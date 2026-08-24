@@ -20,14 +20,23 @@ chat = init_chat_model(
     base_url="https://token-plan-cn.xiaomimimo.com/v1"
 )
 
-_template = ChatPromptTemplate.from_template([
-    ("human", "我姓: {lastname}, 刚生了{gender}, 起个名字并封装成JSON格式返回给我"),
-    ("human", "要求key为name, value是起的名字")
-])
+# _template = ChatPromptTemplate.from_messages([
+#     ("human", "我姓: {lastname}, 刚生了{gender}, 起个名字并封装成JSON格式返回给我"),
+#     ("human", "要求key为name, value是起的名字")
+# ])
 
-_template2 = ChatPromptTemplate.from_template([
-    ("human", "姓名{name}, 帮我解析含义"),
-])
+# _template2 = ChatPromptTemplate.from_messages([
+#     ("human", "姓名{name}, 帮我解析含义"),
+# ])
+
+_template = ChatPromptTemplate.from_template(
+    "我姓: {lastname}, 刚生了{gender}, 起个名字并封装成JSON格式返回给我"
+    "要求key为name, value是起的名字"
+)
+
+_template2 = ChatPromptTemplate.from_template(
+    "姓名{name}, 帮我解析含义"
+)
 
 _parser = StrOutputParser()
 _json_parser = JsonOutputParser()
