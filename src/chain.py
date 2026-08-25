@@ -21,10 +21,11 @@ chat = init_chat_model(
 
 _template = ChatPromptTemplate.from_messages([
     ("system", "你是一个边塞诗人，可以作诗"),
+    MessagesPlaceholder("history"),
     ("human", "请在做一首诗"),
 ])
 
-_template.messages.insert(1, MessagesPlaceholder(variable_name="history"))
+# _template.messages.insert(1, MessagesPlaceholder(variable_name="history"))
 
 history_data = [
     ("human", "你来写一首唐诗"),
