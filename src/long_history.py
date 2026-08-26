@@ -77,5 +77,7 @@ _conversation_chain = RunnableWithMessageHistory(
 session_config = {"configurable": {"session_id": "user_001"}}
 
 res = _conversation_chain.invoke({"input": "小明有一只猫"}, session_config)
-res2 = conversation_chain.invoke({"input": "小明有一条狗"}, session_config)
-# res3 = conversation_chain.invoke({"input": "小明有几个宠物"}, session_config)
+res2 = _conversation_chain.invoke({"input": "小明有一条狗"}, session_config)
+res3 = _conversation_chain.invoke({"input": "小明有几个宠物"}, session_config)
+
+print(res3);
