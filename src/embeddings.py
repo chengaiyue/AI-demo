@@ -26,6 +26,10 @@ loader = CSVLoader(
     encoding="utf-8",
 )
 
-loader.load()
+documents = loader.load()
 
+vectorstore.add_documents(
+    documents=documents,
+    ids=[str(f"id{i}") for i in range(len(documents))]
+)
 
