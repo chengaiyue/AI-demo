@@ -23,22 +23,24 @@ vectorstore = Chroma(  # 内存向量存储
     persist_directory='./chroma_db'
 )
 
-# loader = CSVLoader(
-#     file_path="./file_collection/demo.csv",
-#     encoding="utf-8",
-#     source_column="name",
-# )
+loader = CSVLoader(
+    file_path="./file_collection/demo.csv",
+    encoding="utf-8",
+    source_column="name",
+    metadata_columns=["name"],  # 只将 name 列添加到 metadata
+)
 
-# documents = loader.load()
+documents = loader.load()
 
-# vectorstore.add_documents(
-#     documents=documents,
-#     ids=[str(f"id{i}") for i in range(len(documents))]
-# )
+vectorstore.add_documents(
+    documents=documents,
+    ids=[str(f"id{i}") for i in range(len(documents))]
+)
 
 res = vectorstore.similarity_search(
     query="123456789",
-    k=1,
+    k=2,
+    # filter={"name": "zcc"}
 )
 
 print(res)
