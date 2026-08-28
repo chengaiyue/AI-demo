@@ -49,7 +49,11 @@ def fromat_fun(docs):
     reference_text += "]"
     return reference_text
 
-chain = { "question": RunnablePassthrough(), "context": retriever | fromat_fun } | prompt | chat | StrOutputParser()
+def print_prompt(prompt):
+    print(prompt)
+    return prompt
+
+chain = { "question": RunnablePassthrough(), "context": retriever | fromat_fun } | prompt | print_prompt | chat | StrOutputParser()
 
 resp = chain.invoke("减肥期间应该注意什么")
 
